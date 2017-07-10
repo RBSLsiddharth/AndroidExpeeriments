@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.siddharh.loginregistration.productAddActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/productlinearlayout"
+        android:weightSum="100">
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="25"
+        android:weightSum="100"
+        android:orientation="horizontal">
+        <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        android:text="Product name"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:id="@+id/productName"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:weightSum="100"
+            android:layout_weight="25"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Product Type"
+                android:layout_weight="50"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/productType"
+                android:layout_weight="50"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="25"
+            android:weightSum="100">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Product Availability"
+            android:layout_weight="33.33"/>
+       <RadioGroup
+           android:layout_width="0dp"
+           android:layout_weight="76"
+           android:layout_height="wrap_content"
+           android:weightSum="100"
+           android:orientation="horizontal"
+           >
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text="available"
+            android:layout_height="wrap_content"
+            android:id="@+id/productAvailabilityTrue"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="not Avai."
+                android:layout_weight="50"
+                android:onClick="onRadioButtonClicked"
+                android:id="@+id/productAvailabilityFalse"/>
+       </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="10"
+            android:weightSum="100">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sold to Client:"
+            android:layout_weight="50"/>
+        <Spinner
+              android:layout_width="0dp"
+              android:layout_weight="50"
+              android:layout_height="wrap_content"
+              android:id="@+id/Clientname">
+        </Spinner>
+            </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15"
+            android:id="@+id/btnProductadd"
+            android:text="Add Product"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="100"
+        android:id="@+id/tablelayout">
+       <!-- <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:id="@+id/tablelayoutid"
+                android:layout_height="match_parent">
+            </TableLayout>
+        </ScrollView>-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ClientnamesId"
+            android:orientation="vertical"
+            android:layout_weight="50"></LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Productnames"
+            android:orientation="vertical"
+            android:layout_weight="50"></LinearLayout>
+    </LinearLayout>
+</LinearLayout>
