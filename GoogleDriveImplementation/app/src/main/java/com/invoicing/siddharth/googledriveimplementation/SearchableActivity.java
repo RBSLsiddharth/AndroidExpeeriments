@@ -24,9 +24,7 @@ import java.util.List;
  */
 public class SearchableActivity extends ListActivity {
 
-    List<String> arraylist = new ArrayList<String>();
-    SearchResults searchresults = new SearchResults();
-    @Override
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
@@ -34,7 +32,6 @@ public class SearchableActivity extends ListActivity {
     }
 
    
-
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
@@ -42,33 +39,17 @@ public class SearchableActivity extends ListActivity {
 
     private void handleIntent(Intent intent) {
 
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+
             //use the query to search
            /* Bundle appData = getIntent().getBundleExtra(SearchManager.APP_DATA);
             if (appData != null) {
            */
-                String table ="products";
-                arraylist  = searchresults.Searchresult(this,query, table);
-                if(arraylist.size()>0){
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, arraylist);
-                setListAdapter(adapter);
-            }else {
-                Toast.makeText(this, "RESULT NOT FOUND", Toast.LENGTH_SHORT).show();
-            }
+
         }
 
     }
 
-    @Override
-    public boolean onSearchRequested() {
-        Bundle appData = new Bundle();
-        appData.putString("SearchDomain", "Product");
-        startSearch(null, false, appData, false);
-        return true;
-    }
 
 
 
-}
+

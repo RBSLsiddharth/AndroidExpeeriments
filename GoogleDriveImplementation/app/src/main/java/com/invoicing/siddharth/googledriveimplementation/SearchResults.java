@@ -15,12 +15,12 @@ import java.util.List;
  */
 
 public class SearchResults {
-    List<String> productsname = new ArrayList<String>();
+    List<Products> productsname = new ArrayList<Products>();
 
-    public List<String> Searchresult(Context context, String query, String tablename) {
+    public List<Products> Searchresult(Context context, String query, String tablename) {
         Iterator<Products> listofproductname = (new Databasehandling(context).searchtheproduct(query, tablename)).iterator();
         while (listofproductname.hasNext()){
-            productsname.add(listofproductname.next().getProducts_name());
+            productsname.add(listofproductname.next());
         }
         return productsname;
     }

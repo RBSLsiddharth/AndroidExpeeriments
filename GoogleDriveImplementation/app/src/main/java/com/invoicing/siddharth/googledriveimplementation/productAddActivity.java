@@ -1,14 +1,26 @@
 package com.invoicing.siddharth.googledriveimplementation;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TableRow;
@@ -18,9 +30,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-public class productAddActivity extends AppCompatActivity implements View.OnClickListener {
+public class productAddActivity extends Activity implements View.OnClickListener {
     String Productsname = "";
     String Products_type = "";
     Button btnaddproduct;
@@ -29,16 +42,22 @@ public class productAddActivity extends AppCompatActivity implements View.OnClic
     EditText editText1;
     LinearLayout ClientnamesId,Productnames ,TablelinearLayout,ProductLinearlayout;
     EditText editText2;
+    ArrayAdapter<String> adapter ;
     RadioButton radioButtontrue, radioButtonfalse;
     private static final String TAG = "ERROR MESSAGE";
     Spinner spinner;
     ArrayList<String> Listofallclients = new ArrayList<String>();
     TableRow tableRow;
     TextView ClientName,ProductName;
+    List<Products> arraylist =new ArrayList<Products>();
+    SearchResults searchresults = new SearchResults();
+    List<String>  optionselected = new ArrayList<String>();
+    ArrayAdapter<String> adapterforlist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_add);
+
         btnaddproduct = (Button) findViewById(R.id.btnProductadd);
         btnaddproduct.setOnClickListener(this);
         ProductLinearlayout = (LinearLayout)findViewById(R.id.productlinearlayout);
@@ -51,12 +70,13 @@ public class productAddActivity extends AppCompatActivity implements View.OnClic
         TablelinearLayout= (LinearLayout)findViewById(R.id.tablelayout);
         radioButtonfalse = (RadioButton) findViewById(R.id.productAvailabilityFalse);
         Listofallclients = new HomePage().listofClientsName(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, Listofallclients);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, Listofallclients);
         spinner.setAdapter(adapter);
+
     }
 
-    public void generateTableView(Products product){/*
-      *//*  tableRow = new TableRow(this);
+  //  public void generateTableView(Products product){
+      /*//*  tableRow = new TableRow(this);
         tableRow.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
       *//*  ClientName = new TextView(this);
         ClientName.setPadding(5,5,5,0);
@@ -73,7 +93,7 @@ public class productAddActivity extends AppCompatActivity implements View.OnClic
         addDatatoList(new HomePage().getListofProductwithClient(product,this));
    */
 
-        addDatatoList(new HomePage().getListofProductwithClient(product,this));
+  /*      addDatatoList(new HomePage().getListofProductwithClient(product,this));
 
     }
 
@@ -91,7 +111,7 @@ public class productAddActivity extends AppCompatActivity implements View.OnClic
             TablelinearLayout.addView(Productnames);
             TablelinearLayout.addView(ClientnamesId);
 
-    }
+    }*/
     public void submit() {
         Productsname = editText1.getText().toString().trim();
         Products_type = editText2.getText().toString().trim();
@@ -108,7 +128,7 @@ public class productAddActivity extends AppCompatActivity implements View.OnClic
         try {
             if(products!=null) {
 
-               // ProductLinearlayout.setVisibility(View.GONE);
+                // ProductLinearlayout.setVisibility(View.GONE);
                 //generateTableView(products);
                 startActivity(new Intent(this,MainActivity.class));
             }
@@ -117,6 +137,38 @@ public class productAddActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+    public void onSearchbuttonclick(View view){
+        spinner.setAdapter(adapter);
+        onSearchRequested();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        // Inflate menu to add items to action bar if it is present.
+        inflater.inflate(R.menu.menu_main, menu);
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setIconifiedByDefault(true);
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        searchView.setVisibility(View.GONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return true;
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -146,6 +198,53 @@ public class productAddActivity extends AppCompatActivity implements View.OnClic
                     Products_availability = false;
                 break;
         }
+    }
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        // TODO Auto-generated method stub
+        super.onNewIntent(intent);
+        String table = "products";
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+            arraylist = searchresults.Searchresult(this, query, table);
+            if (arraylist != null && arraylist.size() > 0) {
+                    CustomizedListAdapter customizedListAdapter;
+                    Iterator<Products> listofproductname = arraylist.iterator();
+                    Dialog dialog = new Dialog(this);
+                    dialog.setContentView(R.layout.listlayout);
+             //     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            /*      LayoutInflater li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View v = li.inflate(R.layout.listlayout, null, false);
+            */      final ListView list1 = (ListView) dialog.findViewById(R.id.listinlayout);
+                    customizedListAdapter = new CustomizedListAdapter(this,R.layout.activity_result,arraylist);
+                    list1.setAdapter(customizedListAdapter);
+                    customizedListAdapter.setNotifyOnChange(true);
+                    list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    editText1.setText(arraylist.get(position).getProducts_name());
+                    editText2.setText(arraylist.get(position).getProducts_type());
+                    if(arraylist.get(position).isProducts_availability()){
+                            radioButtontrue.setChecked(true);
+                        }else {
+                            radioButtonfalse.setChecked(false);
+                        }
+                        optionselected.add(arraylist.get(position).getProduct_to_client());
+                       // spinner.se/*(arraylist.get(position).getProduct_to_client());
+                        adapterforlist = new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1, android.R.id.text1, optionselected);
+                        spinner.setAdapter(adapterforlist);
+                        list1.setVisibility(View.GONE);
+                    }
+                });
+
+                //now that the dialog is set up, it's time to show it
+                dialog.show();
+                } else {
+                Toast.makeText(this, "RESULT NOT FOUND", Toast.LENGTH_SHORT).show();
+           // }
+        }
+     }
     }
 }
 

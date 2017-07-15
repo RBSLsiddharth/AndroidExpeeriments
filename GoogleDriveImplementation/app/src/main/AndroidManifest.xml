@@ -20,33 +20,40 @@
             android:name=".MainActivity"
             android:label="@string/app_name">
 
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchableActivity" />
+
         </activity>
 
         <activity
             android:name=".SearchableActivity"
             android:label="@string/app_name">
             <!-- to identify this activity as "searchable" -->
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
 
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
         </activity>
 
         <activity android:name=".SIGNUPACTIVITY">
 
         </activity>
-        <activity android:name=".productAddActivity">
+        <activity android:name=".productAddActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+            <action android:name="android.intent.action.SEARCH" />
+            <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".productAddActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
+
+
         </activity>
 
     </application>

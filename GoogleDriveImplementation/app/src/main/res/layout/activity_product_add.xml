@@ -9,7 +9,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.invoicing.siddharth.googledriveimplementation.MainActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,12 +26,24 @@
         android:layout_height="wrap_content"
         android:layout_weight="50"
         android:text="Product name"/>
-        <EditText
+        <LinearLayout
+            android:layout_width="0dp"
+            android:weightSum="100"
+            android:layout_weight="50"
+            android:layout_height="wrap_content">
+            <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
+            android:layout_weight="80"
             android:id="@+id/productName"
-            />
+            /><ImageButton android:id="@+id/searchbutton"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search"
+            android:onClick="onSearchbuttonclick"
+            android:clickable="true"
+            android:paddingTop="@dimen/place_autocomplete_progress_horizontal_margin" />
+        </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
