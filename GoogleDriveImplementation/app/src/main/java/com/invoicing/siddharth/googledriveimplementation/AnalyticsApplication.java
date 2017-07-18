@@ -13,7 +13,7 @@ public class AnalyticsApplication extends Application {
     private Tracker mTracker;
 
     /**
-     * Gets the default {@link Tracker} for this {@link Application}.
+     * Gets the default {@link Tracker} fo this {@link Application}.
      * @return tracker
      */
     synchronized public Tracker getDefaultTracker() {
