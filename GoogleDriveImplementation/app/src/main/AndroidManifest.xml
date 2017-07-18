@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.invoicing.siddharth.googledriveimplementation"
     >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,6 +36,7 @@
 
         <activity android:name=".SIGNUPACTIVITY">
 
+
         </activity>
         <activity android:name=".productAddActivity"
             android:launchMode="singleTask">
@@ -46,12 +51,11 @@
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".productAddActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
 
 
         </activity>

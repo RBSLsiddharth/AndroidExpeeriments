@@ -27,6 +27,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,6 +45,8 @@ public class productAddActivity extends Activity implements View.OnClickListener
     boolean Products_availability = false;
     String Products_to_client = "";
     EditText editText1;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private GoogleAnalytics googleAnalytics;
     LinearLayout ClientnamesId,Productnames ,TablelinearLayout,ProductLinearlayout;
     EditText editText2;
     ArrayAdapter<String> adapter ;
@@ -51,13 +58,13 @@ public class productAddActivity extends Activity implements View.OnClickListener
     TextView ClientName,ProductName;
     List<Products> arraylist =new ArrayList<Products>();
     SearchResults searchresults = new SearchResults();
-    List<String>  optionselected = new ArrayList<String>();
+    List<String>  optionselected ;
     ArrayAdapter<String> adapterforlist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_add);
-
+        optionselected = new ArrayList<String>();
         btnaddproduct = (Button) findViewById(R.id.btnProductadd);
         btnaddproduct.setOnClickListener(this);
         ProductLinearlayout = (LinearLayout)findViewById(R.id.productlinearlayout);
@@ -72,6 +79,7 @@ public class productAddActivity extends Activity implements View.OnClickListener
         Listofallclients = new HomePage().listofClientsName(this);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, Listofallclients);
         spinner.setAdapter(adapter);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
     }
 
@@ -131,6 +139,18 @@ public class productAddActivity extends Activity implements View.OnClickListener
                 // ProductLinearlayout.setVisibility(View.GONE);
                 //generateTableView(products);
                 startActivity(new Intent(this,MainActivity.class));
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, Productsname);
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, Products_type);
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+                AnalyticsApplication application = (AnalyticsApplication)this.getApplicationContext();
+                Tracker mTracker = application.getDefaultTracker();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("app.and.vendor")
+                        .setAction("show-detail")
+                        .setLabel("productAdd")
+                        .build());
             }
             } catch (Exception e) {
             Log.d("abc",e.getMessage());
@@ -139,6 +159,7 @@ public class productAddActivity extends Activity implements View.OnClickListener
     }
     public void onSearchbuttonclick(View view){
         spinner.setAdapter(adapter);
+
         onSearchRequested();
     }
     @Override
@@ -233,6 +254,7 @@ public class productAddActivity extends Activity implements View.OnClickListener
                         optionselected.add(arraylist.get(position).getProduct_to_client());
                        // spinner.se/*(arraylist.get(position).getProduct_to_client());
                         adapterforlist = new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1, android.R.id.text1, optionselected);
+                        adapterforlist.setNotifyOnChange(true);
                         spinner.setAdapter(adapterforlist);
                         list1.setVisibility(View.GONE);
                     }

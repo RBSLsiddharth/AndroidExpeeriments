@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -9,9 +8,13 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -25,7 +28,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.google.android.gms:play-services:8.4.0'
-    compile 'com.google.code.gson:gson:2.2.+'
+    compile 'com.google.android.gms:play-services:10.2.1'
+    compile 'com.google.android.gms:play-services-analytics:10.2.1'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.google.firebase:firebase-core:10.2.1'
+    compile 'com.google.firebase:firebase-auth:10.2.1'
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

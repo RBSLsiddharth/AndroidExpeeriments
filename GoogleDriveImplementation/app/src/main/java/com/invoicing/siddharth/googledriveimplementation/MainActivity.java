@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void run() {
                 // write content to DriveContents
                 java.io.File dbFile = getApplication().getDatabasePath("invoicingdatabases");
-              /*  final String inFileName = "/data/data/com.example.siddharh.loginregistration/databases/invoicingdatabases.db";
+              /*  final String inFileName = "/data/data/com.example.siddharth.loginregistration/databases/invoicingdatabases.db";
                 File dbFile = new File(inFileName);*/
                 FileInputStream fis = null;
                 OutputStream outputStream = driveContents.getOutputStream();
